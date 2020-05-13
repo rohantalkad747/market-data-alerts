@@ -1,0 +1,7 @@
+
+m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥œ–è8√ÉÎ‹†.
+m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÏÃü≈8√ÉÎ‹†.
+m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—Â…±8√ÉÎ‹†.
+m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(°ΩÓŒ8√ÉÎ‹†.
+r
+java:S1450"URemove the "tokens" field and declare it as a local variable in the relevant methods.(È±‹’8√ÉÎ‹†.

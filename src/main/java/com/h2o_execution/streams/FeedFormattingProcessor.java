@@ -1,11 +1,11 @@
 package com.h2o_execution.streams;
 
-import com.h2o_execution.domain.Security;
+import com.h2o_execution.domain.Quote;
 import lombok.Data;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 
 @Data
-public class FeedFormattingProcessor implements IFeedFilter<Security, String>
+public class FeedFormattingProcessor implements IFeedFilter<Quote, String>
 {
     private DataStreamSource<String> inputStream;
 
@@ -16,7 +16,7 @@ public class FeedFormattingProcessor implements IFeedFilter<Security, String>
                 .map(value ->
                 {
                     String[] tokens = value.split(",");
-                    return new Security(tokens[0], Double.parseDouble(tokens[1]));
+                    return new Quote(tokens[0], Double.parseDouble(tokens[1]));
                 });
     }
 }

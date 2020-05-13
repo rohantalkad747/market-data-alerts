@@ -1,6 +1,6 @@
 package com.h2o_execution;
 
-import com.h2o_execution.domain.Security;
+import com.h2o_execution.domain.Quote;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -10,15 +10,15 @@ public class FeedFormattingProcessor
     public static void main(String[] args) throws Exception
     {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        DataStream<Security> socketStockStream = env
+        DataStream<Quote> socketStockStream = env
                 .socketTextStream("localhost", 9999)
-                .map(new MapFunction<String, Security>() {
+                .map(new MapFunction<String, Quote>() {
                     private String[] tokens;
                     @Override
-                    public Security map(String value)
+                    public Quote map(String value)
                     {
                         tokens = value.split(",");
-                        return new Security(tokens[0], Double.parseDouble(tokens[1]));
+                        return new Quote(tokens[0], Double.parseDouble(tokens[1]));
                     }
                 });
 //        DataStream<Security> SPX_stream = env.addSource(new StreamSource("SPX", 10));

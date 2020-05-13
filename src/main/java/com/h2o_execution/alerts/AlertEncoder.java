@@ -1,6 +1,6 @@
 package com.h2o_execution.alerts;
 
-import com.h2o_execution.domain.EnhancedSecurity;
+import com.h2o_execution.domain.EnhancedQuote;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,7 @@ import java.net.InetAddress;
 import java.util.List;
 
 @Service
-public class AlertEncoder extends MessageToMessageEncoder<EnhancedSecurity>
+public class AlertEncoder extends MessageToMessageEncoder<EnhancedQuote>
 {
     private final InetAddress inetAddress;
     private final int port;
@@ -24,7 +24,7 @@ public class AlertEncoder extends MessageToMessageEncoder<EnhancedSecurity>
     }
 
     @Override
-    protected void encode(ChannelHandlerContext channelHandlerContext, EnhancedSecurity securityAlertSnapshot, List<Object> list) throws Exception
+    protected void encode(ChannelHandlerContext channelHandlerContext, EnhancedQuote securityAlertSnapshot, List<Object> list) throws Exception
     {
         byte[] mssg = securityAlertSnapshotSerializer.serialize(securityAlertSnapshot);
         DatagramPacket datagramPacket = new DatagramPacket(mssg, mssg.length, inetAddress, port);

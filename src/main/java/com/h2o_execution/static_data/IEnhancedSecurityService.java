@@ -1,9 +1,9 @@
 package com.h2o_execution.static_data;
 
-import com.h2o_execution.domain.Security;
-import com.h2o_execution.domain.EnhancedSecurity;
+import com.h2o_execution.domain.Quote;
+import com.h2o_execution.domain.EnhancedQuote;
 
 public interface IEnhancedSecurityService
 {
-    EnhancedSecurity getEnhancedSnapshot(Security security);
+    EnhancedQuote getEnhancedSnapshot(Quote security);
 }

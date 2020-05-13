@@ -1,6 +1,6 @@
 package com.h2o_execution.alerts;
 
-import com.h2o_execution.domain.Security;
+import com.h2o_execution.domain.Quote;
 
 import java.util.function.BiFunction;
 
@@ -9,7 +9,7 @@ public enum ThresholdSign
     POSITIVE
             {
                 @Override
-                public BiFunction<Double, Security, Boolean> getPxThreshold()
+                public BiFunction<Double, Quote, Boolean> getPxThreshold()
                 {
                     return (px, sec) -> sec.getPrice() > px;
                 }
@@ -17,7 +17,7 @@ public enum ThresholdSign
     NEGATIVE
             {
                 @Override
-                public BiFunction<Double, Security, Boolean> getPxThreshold()
+                public BiFunction<Double, Quote, Boolean> getPxThreshold()
                 {
                     return (px, sec) -> sec.getPrice() < px;
                 }
@@ -25,12 +25,12 @@ public enum ThresholdSign
     EQUAL
             {
                 @Override
-                public BiFunction<Double, Security, Boolean> getPxThreshold()
+                public BiFunction<Double, Quote, Boolean> getPxThreshold()
                 {
                     return (px, sec) -> sec.getPrice() == px;
                 }
 
             };
 
-    public abstract BiFunction<Double, Security, Boolean> getPxThreshold();
+    public abstract BiFunction<Double, Quote, Boolean> getPxThreshold();
 }

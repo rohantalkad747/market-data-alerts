@@ -1,6 +1,6 @@
 package com.h2o_execution.streams;
 
-import com.h2o_execution.domain.Security;
+import com.h2o_execution.domain.Quote;
 import org.apache.flink.streaming.api.datastream.DataStream;
 
 public interface IMarketDataStreamManager
@@ -9,5 +9,5 @@ public interface IMarketDataStreamManager
 
     void removeIndicationOfInterest();
 
-    DataStream<Security> getMarketDataStream();
+    DataStream<Quote> getMarketDataStream();
 }

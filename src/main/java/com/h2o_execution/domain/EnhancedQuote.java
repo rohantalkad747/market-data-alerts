@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class EnhancedSecurity extends Security
+public class EnhancedQuote extends Quote
 {
     private double bid;
     private double ask;

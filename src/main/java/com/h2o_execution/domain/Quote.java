@@ -9,7 +9,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Security implements Serializable
+public class Quote implements Serializable
 {
     private String symbol;
     private double price;

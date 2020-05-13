@@ -1,6 +1,6 @@
 package com.h2o_execution.streams;
 
-import com.h2o_execution.Security;
+import com.h2o_execution.domain.Security;
 import lombok.AllArgsConstructor;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
 

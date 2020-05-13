@@ -1,12 +1,12 @@
 package com.h2o_execution.alerts;
 
-import com.h2o_execution.Security;
-
-import java.util.function.BiFunction;
+import com.h2o_execution.domain.Security;
 
 public interface Threshold
 {
-    void setEvaluator(BiFunction<Double, Security, Boolean> evaluator);
+    void setDirection(ThresholdSign qualifier);
+
+    void setQualifier(ThresholdType qualifier);
 
     boolean isSatisfied(Double contextPx, Security security);
 }

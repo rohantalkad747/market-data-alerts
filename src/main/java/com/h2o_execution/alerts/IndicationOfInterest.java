@@ -1,12 +1,11 @@
 package com.h2o_execution.alerts;
 
-public interface IndicationOfInterest<T extends ISpecification>
+import lombok.Data;
+
+@Data
+public abstract class IndicationOfInterest<V>
 {
-    String getSymbol();
-
-    void setSymbol(String symbol);
-
-    ISpecification getSpecification();
-
-    void setSpecification(ISpecification specification);
+    protected V outputConfiguration;
+    protected String symbol;
+    protected Threshold threshold;
 }

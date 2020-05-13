@@ -1,21 +1,18 @@
 package com.h2o_execution.streams;
 
 import com.h2o_execution.Security;
+import lombok.AllArgsConstructor;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
 
 import java.util.Random;
 
+@AllArgsConstructor
 public class StreamSource implements SourceFunction<Security>
 {
     private Double price;
-    private String symbol;
-    private Integer sigma;
+    private final String symbol;
+    private final Integer sigma;
     private boolean cancelled;
-
-    public StreamSource(String symbol, Integer sigma) {
-        this.symbol = symbol;
-        this.sigma = sigma;
-    }
 
     @Override
     public void run(SourceContext<Security> sourceContext) throws InterruptedException

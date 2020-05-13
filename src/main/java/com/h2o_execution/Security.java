@@ -12,5 +12,5 @@ import java.io.Serializable;
 public class Security implements Serializable
 {
     public String symbol;
-    public Double price;
+    public double price;
 }

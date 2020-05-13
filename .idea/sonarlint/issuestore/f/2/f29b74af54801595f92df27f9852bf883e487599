@@ -1,9 +1,0 @@
-
-k	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ß ˜¶üÿÿÿÿ
-m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ª¡ÒÍ8¦â´± .
-r
-java:S1450"URemove the "tokens" field and declare it as a local variable in the relevant methods.(é±ÜÕ8¦â´± .
-e	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ãáò
-k	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ç™ÿ’üÿÿÿÿ
-t
-java:S1128"WRemove this unused import 'org.apache.flink.streaming.api.functions.sink.SinkFunction'.(ä„ÖÝ8çôŽº .

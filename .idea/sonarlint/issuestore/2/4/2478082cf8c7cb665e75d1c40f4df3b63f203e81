@@ -1,0 +1,10 @@
+
+^
+java:S1128"<Remove this unused import 'io.netty.channel.EventLoopGroup'.(Öˆµ­ÿÿÿÿÿ8‹©ş¡.
+J	java:S108")Either remove or fill this block of code.(ÒÌâ–øÿÿÿÿ8·½Åü .
+p
+java:S1128"TRemove this unnecessary import: same package classes are always implicitly imported.(½û¹8¡æ‘ú .
+v
+java:S1128"TRemove this unnecessary import: same package classes are always implicitly imported.(‘¹œ»ùÿÿÿÿ8¡æ‘ú .
+V
+java:S1128"9Remove this unused import 'io.netty.bootstrap.Bootstrap'.(¦ÄÏï8‹©ş¡.

@@ -1,7 +1,12 @@
 
-m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÏĞ8ÃƒëÜ .
-m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ìÌŸÅ8ÃƒëÜ .
-m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÑåÉ±8ÃƒëÜ .
-m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¡½îÎ8ÃƒëÜ .
 r
-java:S1450"URemove the "tokens" field and declare it as a local variable in the relevant methods.(é±ÜÕ8ÃƒëÜ .
+java:S1450"URemove the "tokens" field and declare it as a local variable in the relevant methods.(é±ÜÕ8«´âå .
+S
+java:S1481"6Remove this unused "socketStockStream" local variable.(ªµÀ€8ËÆÔú .
+]	java:S125"<This block of commented-out lines of code should be removed.(õ¦¨£úÿÿÿÿ8ËÆÔú .
+‰
+java:S1130
+"lRemove the declaration of thrown exception 'java.lang.Exception', as it cannot be thrown from method's body.(ÍõÏú8ËÆÔú .
+X	java:S125"<This block of commented-out lines of code should be removed.(†ôƒÓ8ËÆÔú .
+b
+java:S1854"ERemove this useless assignment to local variable "socketStockStream".(ªµÀ€8ËÆÔú .

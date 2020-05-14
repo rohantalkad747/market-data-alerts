@@ -10,24 +10,56 @@ import java.net.InetAddress;
 import java.util.List;
 
 @Service
-public class AlertEncoder extends MessageToMessageEncoder<EnhancedQuote>
+public abstract class AlertEncoder extends MessageToMessageEncoder<EnhancedQuote>
 {
-    private final InetAddress inetAddress;
-    private final int port;
-    private final ISecurityAlertSnapshotSerializer securityAlertSnapshotSerializer;
+    protected final IEnhancedQuoteSerializer securityAlertSnapshotSerializer;
+    protected final InetAddress inetAddress;
+    protected final int port;
 
-    public AlertEncoder(InetAddress inetAddress, int port, ISecurityAlertSnapshotSerializer securityAlertSnapshotSerializer)
+    public AlertEncoder(IEnhancedQuoteSerializer securityAlertSnapshotSerializer, InetAddress inetAddress, int port)
     {
+        this.securityAlertSnapshotSerializer = securityAlertSnapshotSerializer;
         this.inetAddress = inetAddress;
         this.port = port;
-        this.securityAlertSnapshotSerializer = securityAlertSnapshotSerializer;
     }
 
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, EnhancedQuote securityAlertSnapshot, List<Object> list) throws Exception
     {
         byte[] mssg = securityAlertSnapshotSerializer.serialize(securityAlertSnapshot);
-        DatagramPacket datagramPacket = new DatagramPacket(mssg, mssg.length, inetAddress, port);
-        list.add(datagramPacket);
+        Object data = getData(mssg);
+        list.add(data);
+    }
+
+    protected abstract Object getData(byte[] mssg);
+
+    public static class UDPAlertEncoder extends AlertEncoder
+    {
+
+        public UDPAlertEncoder(IEnhancedQuoteSerializer securityAlertSnapshotSerializer, InetAddress inetAddress, int port)
+        {
+            super(securityAlertSnapshotSerializer, inetAddress, port);
+        }
+
+        @Override
+        protected Object getData(byte[] mssg)
+        {
+            return new DatagramPacket(mssg, mssg.length, inetAddress, port);
+        }
+    }
+
+    public static class TCPAlertEncoder extends AlertEncoder
+    {
+
+        public TCPAlertEncoder(IEnhancedQuoteSerializer securityAlertSnapshotSerializer, InetAddress inetAddress, int port)
+        {
+            super(securityAlertSnapshotSerializer, inetAddress, port);
+        }
+
+        @Override
+        protected Object getData(byte[] mssg)
+        {
+            return mssg;
+        }
     }
 }

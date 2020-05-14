@@ -12,8 +12,10 @@ public class FeedFormattingProcessor
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         DataStream<Quote> socketStockStream = env
                 .socketTextStream("localhost", 9999)
-                .map(new MapFunction<String, Quote>() {
+                .map(new MapFunction<String, Quote>()
+                {
                     private String[] tokens;
+
                     @Override
                     public Quote map(String value)
                     {

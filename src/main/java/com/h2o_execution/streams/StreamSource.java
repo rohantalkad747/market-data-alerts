@@ -9,16 +9,16 @@ import java.util.Random;
 @AllArgsConstructor
 public class StreamSource implements SourceFunction<Quote>
 {
-    private Double price;
     private final String symbol;
     private final Integer sigma;
+    private Double price;
     private boolean cancelled;
 
     @Override
     public void run(SourceContext<Quote> sourceContext) throws InterruptedException
     {
         Random r = new Random();
-        while ( !cancelled )
+        while (!cancelled)
         {
             price += sigma * r.nextGaussian();
             Quote stockPrice = new Quote(symbol, price);

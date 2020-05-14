@@ -57,6 +57,20 @@ under the License.
 	</repositories>
 
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/net.openhft/chronicle-map -->
+		<dependency>
+			<groupId>net.openhft</groupId>
+			<artifactId>chronicle-map</artifactId>
+			<version>3.19.4</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.sendgrid/sendgrid-java -->
+		<dependency>
+			<groupId>com.sendgrid</groupId>
+			<artifactId>sendgrid-java</artifactId>
+			<version>4.4.8</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
 		<dependency>
 			<groupId>org.springframework</groupId>

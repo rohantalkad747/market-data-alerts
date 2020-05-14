@@ -6,12 +6,12 @@ import java.lang.reflect.Field;
 
 class UnsafeMemory
 {
-    private static Unsafe unsafe;
-    private static final long byteArrayOffset = unsafe.arrayBaseOffset(byte[].class);
-    private static final long charArrayOffset = unsafe.arrayBaseOffset(char[].class);
     private static final int SIZE_OF_INT = 4;
     private static final int SIZE_OF_LONG = 8;
     private static final int SIZE_OF_DOUBLE = 8;
+    private static Unsafe unsafe;
+    private static final long byteArrayOffset = unsafe.arrayBaseOffset(byte[].class);
+    private static final long charArrayOffset = unsafe.arrayBaseOffset(char[].class);
 
     static
     {

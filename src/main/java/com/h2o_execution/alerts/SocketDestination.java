@@ -1,7 +1,5 @@
 package com.h2o_execution.alerts;
 
-import com.h2o_execution.alerts.IDestination;
-import com.h2o_execution.alerts.IndicationOfInterest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -15,9 +13,14 @@ public class SocketDestination implements IDestination
     boolean connected;
 
     @Override
-    public synchronized  void send(IndicationOfInterest ioi)
+    public synchronized void send(IndicationOfInterest ioi)
     {
+
         if (transportType == TransportType.UDP)
+        {
+
+        }
+        else
         {
 
         }

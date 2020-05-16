@@ -14,7 +14,7 @@ import java.io.IOException;
 public class EmailSender implements IEmailSender
 {
     private static final SendGrid SEND_GRID = new SendGrid("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");
-    private static final Email SLOPOKE_EMAIL = new Email("slopoke.alerts@scotiabank.com");
+    private static final Email SLOPOKE_EMAIL = new Email("alerts@h2o_execution.com");
 
     @Override
     public void sendMail(final String to, final String subject, final String message)

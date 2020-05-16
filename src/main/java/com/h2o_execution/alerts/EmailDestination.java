@@ -1,5 +1,6 @@
 package com.h2o_execution.alerts;
 
+import com.indigo.config.ScotiaTSXTranslator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

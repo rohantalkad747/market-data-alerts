@@ -22,9 +22,4 @@ public class IoI
                 "AAPL",
                 new Threshold(Threshold.Direction.POSITIVE, Threshold.Type.PERCENT, Threshold.Target.OPEN, 10));
     }
-
-    public void dispatch(EnhancedQuote quote)
-    {
-        destination.send(quote, this);
-    }
 }

@@ -2,7 +2,7 @@ package com.h2o_execution.alerts;
 
 import com.h2o_execution.domain.EnhancedQuote;
 import com.h2o_execution.domain.Quote;
-import com.h2o_execution.static_data.IEnhancedQuoteService;
+import com.h2o_execution.streams.MarketDataProxy;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,7 +14,7 @@ import java.util.concurrent.Flow.Subscription;
 @AllArgsConstructor
 public class AlertsFilterMediator implements Subscriber<Quote>
 {
-    private final IEnhancedQuoteService enhancedQuoteService;
+    private final MarketDataProxy marketDataProxy;
     private final IoIStore ioIStore;
 
     @Override
@@ -28,7 +28,7 @@ public class AlertsFilterMediator implements Subscriber<Quote>
             double threshAbsValue = th.getAbsValue();
             if (drxn.isSatisfied(threshAbsValue, q))
             {
-                EnhancedQuote enhancedSnapshot = enhancedQuoteService.getEnhancedQuote(q);
+                EnhancedQuote enhancedSnapshot = marketDataProxy.getEnhancedQuote(q.getSymbol());
                 ioi.getDestination().send(enhancedSnapshot, th);
                 if (th.getType() == Threshold.Type.ABSOLUTE)
                 {

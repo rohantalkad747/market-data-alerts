@@ -12,8 +12,10 @@ public class EnhancedQuote extends Quote
     private double high;
     private double low;
     private int volume;
-    private double fiftyTwoWeekHigh;
-    private double fiftyTwoWeekLow;
+    private double highPrice52;
+    private double lowPrice52;
+    private double pe;
+    private double dividend;
     private double yield;
-    private double peRatio;
+    private long marketCap;
 }

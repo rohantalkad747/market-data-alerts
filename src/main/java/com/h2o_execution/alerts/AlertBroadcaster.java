@@ -12,7 +12,7 @@ public class AlertBroadcaster implements IAlertBroadcaster
     private final EventLoopGroup eventLoopGroup;
     private final Bootstrap bootstrap;
 
-    public AlertBroadcaster(AlertEncoder alertEncoder) throws Exception
+    public AlertBroadcaster(final AlertEncoder alertEncoder) throws Exception
     {
         eventLoopGroup = new NioEventLoopGroup();
         bootstrap = new Bootstrap();
@@ -23,9 +23,9 @@ public class AlertBroadcaster implements IAlertBroadcaster
     }
 
     @Override
-    public void broadcast(String message) throws InterruptedException
+    public void broadcast(final String message) throws InterruptedException
     {
-        Channel ch = bootstrap.connect().sync().channel();
+        final Channel ch = bootstrap.connect().sync().channel();
         ch.writeAndFlush(message);
         ch.close();
     }

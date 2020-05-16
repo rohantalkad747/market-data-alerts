@@ -10,12 +10,12 @@ import java.util.List;
 public class IoILoadChore
 {
     // Account for 15 minute delay ...
-    private static final String AFTER_CLOSE = "0 0/15 4 * * ?";
-    private static final String ON_OPEN = "0 0/45 9 * * ?";
+    private static final String AFTER_CLOSE = "0 0/15 4 * * MON-FRI";
+    private static final String ON_OPEN = "0 0/45 9 * * MON-FRI";
     private final IoIStore ioIStore;
     private final MarketDataProxy marketDataProxy;
 
-    public IoILoadChore(IoIStore ioIStore, MarketDataProxy marketDataProxy)
+    public IoILoadChore(final IoIStore ioIStore, final MarketDataProxy marketDataProxy)
     {
         this.ioIStore = ioIStore;
         this.marketDataProxy = marketDataProxy;
@@ -24,25 +24,25 @@ public class IoILoadChore
     @Scheduled(cron = AFTER_CLOSE)
     public void setAfterClose()
     {
-        List<IoI> matchingIoIs = ioIStore.getIoIsByTarget(Threshold.Target.CLOSE);
+        final List<IoI> matchingIoIs = ioIStore.getIoIsByTarget(Threshold.Target.CLOSE);
         injectPx(matchingIoIs);
     }
 
     @Scheduled(cron = ON_OPEN)
     public void setOnOpen()
     {
-        List<IoI> matchingIoIs = ioIStore.getIoIsByTarget(Threshold.Target.OPEN);
+        final List<IoI> matchingIoIs = ioIStore.getIoIsByTarget(Threshold.Target.OPEN);
         injectPx(matchingIoIs);
     }
 
-    private void injectPx(List<IoI> matchingIoIs)
+    private void injectPx(final List<IoI> matchingIoIs)
     {
-        for (IoI ioi : matchingIoIs)
+        for (final IoI ioi : matchingIoIs)
         {
-            Threshold th = ioi.getThreshold();
-            double px = marketDataProxy.getPrice(ioi.getSymbol(), th.getTarget());
-            Threshold.Direction dir = th.getDirection();
-            double target = dir.getTarget(px, th.getPctValue());
+            final Threshold th = ioi.getThreshold();
+            final double px = marketDataProxy.getPrice(ioi.getSymbol(), th.getTarget());
+            final Threshold.Direction dir = th.getDirection();
+            final double target = dir.getTarget(px, th.getPctValue());
             ioi.getThreshold().setAbsValue(target);
         }
     }

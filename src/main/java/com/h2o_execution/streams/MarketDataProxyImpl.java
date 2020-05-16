@@ -21,41 +21,34 @@ import java.io.IOException;
 @Service
 public class MarketDataProxyImpl implements MarketDataProxy
 {
+    private final EQMapper eqMapper;
     @Value("${tradier_api_key}")
     private String TRADIER_API_KEY;
-    private EQMapper eqMapper;
 
-    public MarketDataProxyImpl(EQMapper eqMapper)
+    public MarketDataProxyImpl(final EQMapper eqMapper)
     {
         this.eqMapper = eqMapper;
     }
 
     @Override
-    public double getPrice(String symbol, Threshold.Target target)
+    public double getPrice(final String symbol, final Threshold.Target target) throws IOException
     {
-        try
+        final TradierEnhancedPartialQuote tepq = getTepq(symbol);
+        if (target == Threshold.Target.CLOSE)
         {
-            TradierEnhancedPartialQuote tepq = getTepq(symbol);
-            if (target == Threshold.Target.CLOSE)
-            {
-                return tepq.getClose();
-            }
-            return tepq.getOpen();
+            return tepq.getClose();
         }
-        catch (Exception e)
-        {
-            log.error("Failed to get price!", e);
-        }
+        return tepq.getOpen();
     }
 
-    private TradierEnhancedPartialQuote getTepq(String symbol) throws IOException
+    private TradierEnhancedPartialQuote getTepq(final String symbol) throws IOException
     {
         final HttpUriRequest request = RequestBuilder
                 .get("https://api.tradier.com/v1/markets/quotes")
                 .addHeader("Authorization", "Bearer " + TRADIER_API_KEY)
                 .addHeader("Accept", "application/json")
                 .addParameter("symbols", symbol)
-                .addParameter("greeks", "false")
+                .addParameter("greeks", "true")
                 .build();
         final HttpResponse response = HttpClientBuilder.create().build().execute(request);
         final String jsonString = EntityUtils.toString(response.getEntity());
@@ -63,7 +56,7 @@ public class MarketDataProxyImpl implements MarketDataProxy
     }
 
     @Override
-    public EnhancedQuote getEnhancedQuote(String symbol)
+    public EnhancedQuote getEnhancedQuote(final String symbol)
     {
         return null;
     }

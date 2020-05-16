@@ -16,14 +16,14 @@ public class Threshold
     private double absValue;
     private double pctValue;
 
-    private Threshold(Direction direction, Type type, Target target)
+    private Threshold(final Direction direction, final Type type, final Target target)
     {
         this.direction = direction;
         this.type = type;
         this.target = target;
     }
 
-    public Threshold(Direction direction, Type type, Target target, double v)
+    public Threshold(final Direction direction, final Type type, final Target target, final double v)
     {
         this(direction, type, target);
         if (type == Type.ABSOLUTE)
@@ -40,26 +40,26 @@ public class Threshold
     {
         POSITIVE("up")
                 {
-                    public boolean isSatisfied(double px, Quote quote)
+                    public boolean isSatisfied(final double px, final Quote quote)
                     {
                         return quote.getPrice() > px;
                     }
 
                     @Override
-                    public double getTarget(double px, double pct)
+                    public double getTarget(final double px, final double pct)
                     {
                         return px * (1 + pct);
                     }
                 },
         NEGATIVE("down")
                 {
-                    public boolean isSatisfied(double px, Quote quote)
+                    public boolean isSatisfied(final double px, final Quote quote)
                     {
                         return quote.getPrice() < px;
                     }
 
                     @Override
-                    public double getTarget(double px, double pct)
+                    public double getTarget(final double px, final double pct)
                     {
                         return px * (1 - pct);
                     }
@@ -67,7 +67,7 @@ public class Threshold
 
         private final String drxn;
 
-        Direction(String drxn)
+        Direction(final String drxn)
         {
             this.drxn = drxn;
         }

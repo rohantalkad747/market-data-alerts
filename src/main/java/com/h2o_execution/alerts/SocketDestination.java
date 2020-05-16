@@ -14,21 +14,21 @@ public class SocketDestination extends AbstractDestination
 {
     private final AlertEncoder encoder;
 
-    public SocketDestination(String ipAddress, int port) throws UnknownHostException
+    public SocketDestination(final String ipAddress, final int port) throws UnknownHostException
     {
-        InetAddress inetAddress = InetAddress.getByName(ipAddress);
+        final InetAddress inetAddress = InetAddress.getByName(ipAddress);
         this.encoder = new AlertEncoder(inetAddress, port);
     }
 
     @Override
-    protected void sendToDestination(String formattedIoI)
+    protected void sendToDestination(final String formattedIoI)
     {
         try
         {
-            AlertBroadcaster alertBroadcaster = new AlertBroadcaster(encoder);
+            final AlertBroadcaster alertBroadcaster = new AlertBroadcaster(encoder);
             alertBroadcaster.broadcast(formattedIoI);
         }
-        catch (Exception e)
+        catch (final Exception e)
         {
             log.error("Failed to send alert to socket", e);
         }

@@ -13,7 +13,7 @@ public class EmailDestination extends AbstractDestination
     private final String email;
 
     @Override
-    protected void sendToDestination(String formattedIoI)
+    protected void sendToDestination(final String formattedIoI)
     {
         emailSender.sendMail(formattedIoI, "H2O Execution Services Alert", email);
     }

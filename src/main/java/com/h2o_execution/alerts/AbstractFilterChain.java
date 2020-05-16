@@ -9,7 +9,7 @@ public abstract class AbstractFilterChain<U, P>
 {
     private AbstractFilterChain<U, P> next;
 
-    public static <X, Y> void linkFilters(List<AbstractFilterChain<X, Y>> filters)
+    public static <X, Y> void linkFilters(final List<AbstractFilterChain<X, Y>> filters)
     {
         if (filters == null || filters.isEmpty())
         {
@@ -18,18 +18,18 @@ public abstract class AbstractFilterChain<U, P>
         AbstractFilterChain<X, Y> curHead = filters.get(0);
         for (int i = 1; i < filters.size(); i++)
         {
-            AbstractFilterChain<X, Y> next = filters.get(i);
+            final AbstractFilterChain<X, Y> next = filters.get(i);
             curHead.setNextFilter(next);
             curHead = next;
         }
     }
 
-    public void setNextFilter(AbstractFilterChain<U, P> filter)
+    public void setNextFilter(final AbstractFilterChain<U, P> filter)
     {
         next = filter;
     }
 
-    public void execute(U upstream, P payload)
+    public void execute(final U upstream, final P payload)
     {
         doFilter(upstream, payload);
         if (next != null)

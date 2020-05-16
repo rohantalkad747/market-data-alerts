@@ -15,17 +15,17 @@ public class AlertEncoder extends MessageToMessageEncoder<String>
     protected final InetAddress inetAddress;
     protected final int port;
 
-    public AlertEncoder(InetAddress inetAddress, int port)
+    public AlertEncoder(final InetAddress inetAddress, final int port)
     {
         this.inetAddress = inetAddress;
         this.port = port;
     }
 
     @Override
-    protected void encode(ChannelHandlerContext channelHandlerContext, String str, List<Object> list) throws Exception
+    protected void encode(final ChannelHandlerContext channelHandlerContext, final String str, final List<Object> list) throws Exception
     {
-        byte[] mssg = str.getBytes(StandardCharsets.UTF_8);
-        DatagramPacket datagramPacket = new DatagramPacket(mssg, mssg.length, inetAddress, port);
+        final byte[] mssg = str.getBytes(StandardCharsets.UTF_8);
+        final DatagramPacket datagramPacket = new DatagramPacket(mssg, mssg.length, inetAddress, port);
         list.add(datagramPacket);
     }
 }

@@ -1,10 +1,10 @@
-package com.h2o_execution.alerts;
+package com.h2o_execution.serializers;
 
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
 
-class UnsafeMemory
+public class UnsafeMemory
 {
     private static final int SIZE_OF_INT = 4;
     private static final int SIZE_OF_LONG = 8;
@@ -17,11 +17,11 @@ class UnsafeMemory
     {
         try
         {
-            Field field = Unsafe.class.getDeclaredField("theUnsafe");
+            final Field field = Unsafe.class.getDeclaredField("theUnsafe");
             field.setAccessible(true);
             unsafe = (Unsafe) field.get(null);
         }
-        catch (Exception e)
+        catch (final Exception e)
         {
             throw new RuntimeException(e);
         }
@@ -48,7 +48,7 @@ class UnsafeMemory
 
     public int getInt()
     {
-        int value = unsafe.getInt(buffer, byteArrayOffset + pos);
+        final int value = unsafe.getInt(buffer, byteArrayOffset + pos);
         pos += SIZE_OF_INT;
         return value;
     }
@@ -61,7 +61,7 @@ class UnsafeMemory
 
     public long getLong()
     {
-        long value = unsafe.getLong(buffer, byteArrayOffset + pos);
+        final long value = unsafe.getLong(buffer, byteArrayOffset + pos);
         pos += SIZE_OF_LONG;
         return value;
     }
@@ -74,7 +74,7 @@ class UnsafeMemory
 
     public double getDouble()
     {
-        double value = unsafe.getDouble(buffer, byteArrayOffset + pos);
+        final double value = unsafe.getDouble(buffer, byteArrayOffset + pos);
         pos += SIZE_OF_DOUBLE;
         return value;
     }
@@ -83,17 +83,17 @@ class UnsafeMemory
     {
         putInt(values.length);
 
-        long bytesToCopy = values.length << 3;
+        final long bytesToCopy = values.length << 3;
         unsafe.copyMemory(values, charArrayOffset, buffer, byteArrayOffset + pos, bytesToCopy);
         pos += bytesToCopy;
     }
 
     public char[] getCharArray()
     {
-        int arraySize = getInt();
-        char[] values = new char[arraySize];
+        final int arraySize = getInt();
+        final char[] values = new char[arraySize];
 
-        long bytesToCopy = values.length << 3;
+        final long bytesToCopy = values.length << 3;
         unsafe.copyMemory(buffer, byteArrayOffset + pos, values, charArrayOffset, bytesToCopy);
         pos += bytesToCopy;
         return values;

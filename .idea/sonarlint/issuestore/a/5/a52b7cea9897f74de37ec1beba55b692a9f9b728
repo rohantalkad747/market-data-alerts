@@ -1,3 +1,3 @@
 
-“
-java:S1130"qRemove the declaration of thrown exception 'java.lang.Exception', as it cannot be thrown from constructor's body.(ƒ÷ŠÅûÿÿÿÿ8‚ÚÄÚ¡.
+‘
+java:S1130"qRemove the declaration of thrown exception 'java.lang.Exception', as it cannot be thrown from constructor's body.(ƒ÷ŠÅûÿÿÿÿ8‚ÚÄÚ¡.

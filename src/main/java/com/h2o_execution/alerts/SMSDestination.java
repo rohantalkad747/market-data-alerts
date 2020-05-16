@@ -12,7 +12,7 @@ public class SMSDestination extends AbstractDestination
     private long phNumber;
 
     @Override
-    protected void sendToDestination(String formattedIoI)
+    protected void sendToDestination(final String formattedIoI)
     {
 
     }

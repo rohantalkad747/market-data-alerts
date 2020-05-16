@@ -5,55 +5,39 @@ import com.h2o_execution.domain.Quote;
 import com.h2o_execution.streams.MarketDataProxy;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.flink.streaming.api.functions.sink.SinkFunction;
 
 import java.util.List;
-import java.util.concurrent.Flow.Subscriber;
-import java.util.concurrent.Flow.Subscription;
 
 @Slf4j
 @AllArgsConstructor
-public class AlertsFilterMediator implements Subscriber<Quote>
+public class AlertsFilterMediator implements SinkFunction<Quote>
 {
     private final MarketDataProxy marketDataProxy;
     private final IoIStore ioIStore;
 
     @Override
-    public void onNext(Quote q)
+    public void invoke(Quote q, Context context)
     {
-        List<IoI> ioIsBySymbol = ioIStore.getIoIsBySymbol(q.getSymbol());
-        for (IoI ioi : ioIsBySymbol)
+        final List<IoI> ioIsBySymbol = ioIStore.getIoIsBySymbol(q.getSymbol());
+        for (final IoI ioi : ioIsBySymbol)
         {
-            Threshold th = ioi.getThreshold();
-            Threshold.Direction drxn = th.getDirection();
-            double threshAbsValue = th.getAbsValue();
+            final Threshold th = ioi.getThreshold();
+            final Threshold.Direction drxn = th.getDirection();
+            final double threshAbsValue = th.getAbsValue();
             if (drxn.isSatisfied(threshAbsValue, q))
             {
-                EnhancedQuote enhancedSnapshot = marketDataProxy.getEnhancedQuote(q.getSymbol());
-                ioi.getDestination().send(enhancedSnapshot, th);
+                final EnhancedQuote enhancedQuote = marketDataProxy.getEnhancedQuote(q.getSymbol());
+                ioi.getDestination().send(enhancedQuote, th);
                 if (th.getType() == Threshold.Type.ABSOLUTE)
                 {
                     this.ioIStore.removeEntry(ioi.getSymbol(), ioi.getId());
                 }
+                else
+                {
+                    ioi.setInactivate();
+                }
             }
         }
-    }
-
-    @Override
-    public void onSubscribe(Subscription subscription)
-    {
-        subscription.request(100);
-    }
-
-
-    @Override
-    public void onError(Throwable throwable)
-    {
-        log.error("Subscriber Error >> %s", throwable);
-    }
-
-    @Override
-    public void onComplete()
-    {
-        log.info("Market data done for day");
     }
 }

@@ -1,3 +1,6 @@
 
-U
-java:S1068"3Remove this unused "executorService" private field.(¯çÂƒşÿÿÿÿ8–ÒŒá¡.
+J	java:S108\")Either remove or fill this block of code.(ÒÌâ–øÿÿÿÿ8Ôÿù¡.
+F
+java:S2140")Use "java.util.Random.nextInt()" instead.(©òöË8„ºÿù¡.
+G
+java:S1481["*Remove this unused "entry" local variable.(àšó¹8Ôÿù¡.

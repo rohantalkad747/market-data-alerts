@@ -6,19 +6,20 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public abstract class AbstractDestination implements IDestination
 {
+
     @Override
-    public final void send(EnhancedQuote quote, Threshold th)
+    public final void send(final EnhancedQuote quote, final Threshold th)
     {
-        String formattedIoI = formatIoI(quote, th);
+        final String formattedIoI = formatIoI(quote, th);
         this.sendToDestination(formattedIoI);
     }
 
     protected abstract void sendToDestination(String formattedIoI);
 
-    private String formatIoI(EnhancedQuote quote, Threshold th)
+    private String formatIoI(final EnhancedQuote quote, final Threshold th)
     {
-        String direction = th.getDirection().getName();
-        StringBuilder reason = new StringBuilder("Went " + direction);
+        final String direction = th.getDirection().getName();
+        final StringBuilder reason = new StringBuilder("Went " + direction);
         if (th.getType() == Threshold.Type.ABSOLUTE)
         {
             reason.append(" to $").append(th.getAbsValue());

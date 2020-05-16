@@ -7,17 +7,17 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
 public class FeedFormattingProcessor
 {
-    public static void main(String[] args) throws Exception
+    public static void main(final String[] args) throws Exception
     {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        DataStream<Quote> socketStockStream = env
+        final DataStream<Quote> socketStockStream = env
                 .socketTextStream("localhost", 9999)
                 .map(new MapFunction<String, Quote>()
                 {
                     private String[] tokens;
 
                     @Override
-                    public Quote map(String value)
+                    public Quote map(final String value)
                     {
                         tokens = value.split(",");
                         return new Quote(tokens[0], Double.parseDouble(tokens[1]));

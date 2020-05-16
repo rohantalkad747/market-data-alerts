@@ -138,5 +138,7 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.2.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.2.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:5.2.1.RELEASE" level="project" />
+    <orderEntry type="library" name="portwarelibrary" level="project" />
+    <orderEntry type="library" name="proprietary" level="project" />
   </component>
 </module>

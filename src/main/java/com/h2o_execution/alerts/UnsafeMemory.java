@@ -1,6 +1,6 @@
 package com.h2o_execution.alerts;
 
-import jdk.internal.misc.Unsafe;
+import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
 

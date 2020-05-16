@@ -7,28 +7,12 @@ import lombok.Data;
 @Data
 public class SocketDestination implements IDestination
 {
-    TransportType transportType;
     String ipAddress;
     int port;
-    boolean connected;
 
     @Override
-    public synchronized void send(IndicationOfInterest ioi)
+    public synchronized void send(IoI ioi)
     {
 
-        if (transportType == TransportType.UDP)
-        {
-
-        }
-        else
-        {
-
-        }
-    }
-
-    public enum TransportType
-    {
-        TCP,
-        UDP
     }
 }

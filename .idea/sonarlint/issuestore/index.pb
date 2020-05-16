@@ -19,8 +19,6 @@ j
 :src/main/java/com/h2o_execution/alerts/SMSDestination.java,1\2\12cc16f69dc9b89e5580c4d2280e40e9ce8a69a9
 t
 Dsrc/main/java/com/h2o_execution/streams/FeedFormattingProcessor.java,a\e\ae860faf77e905985632b62232b7099a9e28f7ea
-|
-Lsrc/main/java/com/h2o_execution/alerts/ISecurityAlertSnapshotSerializer.java,6\4\644d395d9e397ab6ce31ccbccc1bd46d98b52d0e
 h
 8src/main/java/com/h2o_execution/alerts/IDestination.java,a\7\a7460f3e425a8939bdb0c9ed3397ef830510d3f9
 l
@@ -39,8 +37,6 @@ a
 1src/main/java/com/h2o_execution/domain/Quote.java,2\8\28f290f2b4eaa45292677c95a0f2e5a17ea66103
 e
 5src/main/java/com/h2o_execution/alerts/Threshold.java,b\3\b3bcaa17bd763d9107dca153ab0ccde2f6342f9f
-l
-<src/main/java/com/h2o_execution/alerts/UnsafeSerializer.java,b\6\b666b0d2caf7d8dfb91adc9e1bc490345712e346
 i
 9src/main/java/com/h2o_execution/domain/EnhancedQuote.java,e\2\e2caeec00b90718377e9d6d93f4fc9b79a11d802
 h
@@ -53,3 +49,11 @@ h
 8src/main/java/com/h2o_execution/alerts/AlertEncoder.java,a\1\a148dee2d8e9b0df382a5d2568a160b19c09cc1c
 l
 <src/main/java/com/h2o_execution/alerts/AlertBroadcaster.java,a\5\a52b7cea9897f74de37ec1beba55b692a9f9b728
+g
+7src/main/java/com/h2o_execution/alerts/EmailSender.java,e\0\e00d27ad58019f8ebf60eb591d26f7d07a717093
+t
+Dsrc/main/java/com/h2o_execution/alerts/IEnhancedQuoteSerializer.java,d\7\d7504162c2291dd4396b21278250da6013c7999e
+s
+Csrc/main/java/com/h2o_execution/alerts/EnhancedQuoteSerializer.java,6\e\6ebfd4b028a7c4d40f4ff64e9a03a68bdc850b92
+h
+8src/main/java/com/h2o_execution/alerts/IEmailSender.java,3\a\3a7e013be2e43985bacdf9e4b397ea6b23dec262

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="portwarelibrary">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/main/expiremental_jars/portwarelibrary.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

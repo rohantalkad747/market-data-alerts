@@ -7,11 +7,12 @@ import lombok.Data;
 @Data
 public class EmailDestination implements IDestination
 {
-    String email;
+    private final IEmailSender emailSender;
+    private final String email;
 
     @Override
-    public void send(IndicationOfInterest ioi)
+    public void send(IoI ioi)
     {
-
+        emailSender.sendMail(ioi.toString(), "H2O Execution Services Alert", email);
     }
 }

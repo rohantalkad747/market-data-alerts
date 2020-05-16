@@ -1,0 +1,19 @@
+<component name="libraryTable">
+  <library name="proprietary">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/main/proprietary/bloomberg_native.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/main/proprietary/portwarelibrary.jar!/" />
+      <root url="file://$PROJECT_DIR$/src/main/proprietary" />
+      <root url="file://$PROJECT_DIR$/src/main/proprietary/ext" />
+      <root url="file://$PROJECT_DIR$/src/main/proprietary/internal.war" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/src/main/proprietary/ext" />
+    </SOURCES>
+    <jarDirectory url="file://$PROJECT_DIR$/src/main/proprietary" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/src/main/proprietary/ext" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/src/main/proprietary/internal.war" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/src/main/proprietary/ext" recursive="false" type="SOURCES" />
+  </library>
+</component>

@@ -16,19 +16,17 @@ public class AlertBroadcaster implements IAlertBroadcaster
     {
         eventLoopGroup = new NioEventLoopGroup();
         bootstrap = new Bootstrap();
-        bootstrap
-                .group(eventLoopGroup)
+        bootstrap.group(eventLoopGroup)
                 .channel(NioDatagramChannel.class)
                 .option(ChannelOption.SO_BROADCAST, true)
                 .handler(alertEncoder);
     }
 
-
     @Override
     public void broadcast(String message) throws InterruptedException
     {
         Channel ch = bootstrap.connect().sync().channel();
-        ch.write(message);
+        ch.writeAndFlush(message);
         ch.close();
     }
 

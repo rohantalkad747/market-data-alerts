@@ -5,7 +5,7 @@
       <configuration />
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_14_PREVIEW">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -15,6 +15,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="portwarelibrary" level="project" />
+    <orderEntry type="library" name="proprietary" level="project" />
     <orderEntry type="library" name="Maven: net.openhft:chronicle-map:3.19.4" level="project" />
     <orderEntry type="library" name="Maven: net.openhft:chronicle-core:2.19.0" level="project" />
     <orderEntry type="library" name="Maven: com.intellij:annotations:12.0" level="project" />
@@ -138,7 +140,5 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.2.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.2.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:5.2.1.RELEASE" level="project" />
-    <orderEntry type="library" name="portwarelibrary" level="project" />
-    <orderEntry type="library" name="proprietary" level="project" />
   </component>
 </module>

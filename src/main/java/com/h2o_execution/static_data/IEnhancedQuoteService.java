@@ -3,7 +3,7 @@ package com.h2o_execution.static_data;
 import com.h2o_execution.domain.EnhancedQuote;
 import com.h2o_execution.domain.Quote;
 
-public interface IEnhancedSecurityService
+public interface IEnhancedQuoteService
 {
-    EnhancedQuote getEnhancedSnapshot(Quote security);
+    EnhancedQuote getEnhancedQuote(Quote security);
 }

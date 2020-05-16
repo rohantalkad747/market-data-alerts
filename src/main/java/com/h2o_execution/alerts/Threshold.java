@@ -26,7 +26,7 @@ public class Threshold
     public Threshold(Direction direction, Type type, Target target, double v)
     {
         this(direction, type, target);
-        if ( type == Type.ABSOLUTE )
+        if (type == Type.ABSOLUTE)
         {
             this.absValue = v;
         }
@@ -38,9 +38,9 @@ public class Threshold
 
     public enum Direction
     {
-        POSITIVE
+        POSITIVE("up")
                 {
-                    public boolean getPxThreshold(double px, Quote quote)
+                    public boolean isSatisfied(double px, Quote quote)
                     {
                         return quote.getPrice() > px;
                     }
@@ -48,12 +48,12 @@ public class Threshold
                     @Override
                     public double getTarget(double px, double pct)
                     {
-                        return px * ( 1 + pct );
+                        return px * (1 + pct);
                     }
                 },
-        NEGATIVE
+        NEGATIVE("down")
                 {
-                    public boolean getPxThreshold(double px, Quote quote)
+                    public boolean isSatisfied(double px, Quote quote)
                     {
                         return quote.getPrice() < px;
                     }
@@ -61,11 +61,24 @@ public class Threshold
                     @Override
                     public double getTarget(double px, double pct)
                     {
-                        return px * ( 1 - pct );
+                        return px * (1 - pct);
                     }
                 };
 
-        public abstract boolean getPxThreshold(double px, Quote quote);
+        private final String drxn;
+
+        Direction(String drxn)
+        {
+            this.drxn = drxn;
+        }
+
+        public String getName()
+        {
+            return drxn;
+        }
+
+        public abstract boolean isSatisfied(double px, Quote quote);
+
         public abstract double getTarget(double px, double pct);
     }
 

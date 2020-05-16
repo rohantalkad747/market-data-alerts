@@ -2,17 +2,19 @@ package com.h2o_execution.alerts;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @Data
-public class EmailDestination implements IDestination
+public class EmailDestination extends AbstractDestination
 {
     private final IEmailSender emailSender;
     private final String email;
 
     @Override
-    public void send(IoI ioi)
+    protected void sendToDestination(String formattedIoI)
     {
-        emailSender.sendMail(ioi.toString(), "H2O Execution Services Alert", email);
+        emailSender.sendMail(formattedIoI, "H2O Execution Services Alert", email);
     }
 }

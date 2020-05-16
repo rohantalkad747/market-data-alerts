@@ -5,13 +5,13 @@ import net.openhft.chronicle.map.ChronicleMap;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.Map.Entry;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class IoIStoreImpl implements IoIStore
 {
-    private final ExecutorService executorService;
     private final ChronicleMap<String, List<IoI>> chronicleMap;
 
     public IoIStoreImpl() throws IOException
@@ -27,19 +27,18 @@ public class IoIStoreImpl implements IoIStore
                 .averageValue(averageValue)
                 .entries(10000)
                 .createPersistedTo(new File("ioi.dat"));
-        executorService = Executors.newCachedThreadPool();
     }
 
-    @Override
-    public synchronized List<IoI> getMatchingIoIs(Threshold.Target target)
+    private List<IoI> getMatchingIoIs(Predicate<? super IoI> fun)
     {
         List<IoI> matchingIoI = new ArrayList<>();
-        Set<Map.Entry<String, List<IoI>>> entries = this.chronicleMap.entrySet();
-        for (Map.Entry<String, List<IoI>> ioiList :  entries) {
+        Set<Entry<String, List<IoI>>> entries = chronicleMap.entrySet();
+        for (Entry<String, List<IoI>> ioiList : entries)
+        {
             List<IoI> collect = ioiList
                     .getValue()
                     .stream()
-                    .filter(ioi -> ioi.getThreshold().getTarget() == target)
+                    .filter(fun)
                     .collect(Collectors.toList());
             matchingIoI.addAll(collect);
         }
@@ -47,9 +46,21 @@ public class IoIStoreImpl implements IoIStore
     }
 
     @Override
+    public synchronized List<IoI> getIoIsByTarget(Threshold.Target target)
+    {
+        return getMatchingIoIs(ioi -> ioi.getThreshold().getTarget() == target);
+    }
+
+    @Override
+    public List<IoI> getIoIsBySymbol(String symbol)
+    {
+        return getMatchingIoIs(ioi -> ioi.getSymbol().equals(symbol));
+    }
+
+    @Override
     public synchronized boolean removeEntry(String symbol, long id)
     {
-        List<IoI> ioIS = this.chronicleMap.get(symbol);
+        List<IoI> ioIS = chronicleMap.get(symbol);
         if (ioIS != null)
         {
             Iterator<IoI> iterator = ioIS.iterator();
@@ -66,14 +77,24 @@ public class IoIStoreImpl implements IoIStore
     }
 
     @Override
+    public void bulkRemove(List<IoI> iois)
+    {
+        Map<String, List<IoI>> deletionCandidates = iois.stream().collect(Collectors.groupingBy(IoI::getSymbol));
+        for (Entry<String, List<IoI>> entry : deletionCandidates.entrySet())
+        {
+
+        }
+    }
+
+    @Override
     public synchronized void addEntry(IoI ioi)
     {
-        List<IoI> ioIS = this.chronicleMap.get(ioi.getSymbol());
+        List<IoI> ioIS = chronicleMap.get(ioi.getSymbol());
         if (ioIS == null)
         {
             ioIS = new ArrayList<>();
         }
         ioIS.add(ioi);
-        this.chronicleMap.put(ioi.getSymbol(), ioIS);
+        chronicleMap.put(ioi.getSymbol(), ioIS);
     }
 }

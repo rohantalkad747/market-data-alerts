@@ -1,18 +1,36 @@
 package com.h2o_execution.alerts;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.extern.slf4j.Slf4j;
 
-@AllArgsConstructor
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+@EqualsAndHashCode(callSuper = true)
+@Slf4j
 @Data
-public class SocketDestination implements IDestination
+public class SocketDestination extends AbstractDestination
 {
-    String ipAddress;
-    int port;
+    private final AlertEncoder encoder;
+
+    public SocketDestination(String ipAddress, int port) throws UnknownHostException
+    {
+        InetAddress inetAddress = InetAddress.getByName(ipAddress);
+        this.encoder = new AlertEncoder(inetAddress, port);
+    }
 
     @Override
-    public synchronized void send(IoI ioi)
+    protected void sendToDestination(String formattedIoI)
     {
-
+        try
+        {
+            AlertBroadcaster alertBroadcaster = new AlertBroadcaster(encoder);
+            alertBroadcaster.broadcast(formattedIoI);
+        }
+        catch (Exception e)
+        {
+            log.error("Failed to send alert to socket", e);
+        }
     }
 }

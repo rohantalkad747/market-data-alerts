@@ -5,8 +5,6 @@
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 q
 Asrc/main/java/com/h2o_execution/alerts/IAlertsHistoryManager.java,a\e\ae25566b5c9d160d47b9b0489fa73fa053d38657
-p
-@src/main/java/com/h2o_execution/alerts/IndicationOfInterest.java,0\2\027ae502d6dcd42bb0df84826f9d3ff77abd442e
 i
 9src/main/java/com/h2o_execution/streams/StreamSource.java,a\1\a1159da3f77eede817fe876aefe1cb5a707aaeb2
 h
@@ -23,16 +21,8 @@ h
 8src/main/java/com/h2o_execution/alerts/IDestination.java,a\7\a7460f3e425a8939bdb0c9ed3397ef830510d3f9
 l
 <src/main/java/com/h2o_execution/alerts/EmailDestination.java,7\4\7495145cfd27d9c785bf9edebf30495de6c03136
-i
-9src/main/java/com/h2o_execution/alerts/ThresholdSign.java,9\f\9f7c96cacf67c76c4826591f4210580862cc7936
-i
-9src/main/java/com/h2o_execution/alerts/ThresholdType.java,4\b\4b22a38c8bdc36d5388e464bb072648a19a3d23b
-k
-;src/main/java/com/h2o_execution/alerts/ThresholdTarget.java,e\0\e007ec72582cef6afb269c694f1359bcd681ec70
 y
 Isrc/main/java/com/h2o_execution/static_data/IEnhancedSecurityService.java,6\3\63e6cfa50f0253e1d9bb7dc564b0b468e3be4072
-k
-;src/main/java/com/h2o_execution/alerts/ThresholdConfig.java,f\3\f34e426c07b568d9226982b4d1dd97d31b56932a
 a
 1src/main/java/com/h2o_execution/domain/Quote.java,2\8\28f290f2b4eaa45292677c95a0f2e5a17ea66103
 e

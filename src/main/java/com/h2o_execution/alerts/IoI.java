@@ -1,5 +1,6 @@
 package com.h2o_execution.alerts;
 
+import com.h2o_execution.domain.EnhancedQuote;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class IoI
 {
     private long id;
-    private IDestination output;
+    private IDestination destination;
     private String symbol;
     private Threshold threshold;
 
@@ -20,5 +21,10 @@ public class IoI
                 new SMSDestination(4166938981L),
                 "AAPL",
                 new Threshold(Threshold.Direction.POSITIVE, Threshold.Type.PERCENT, Threshold.Target.OPEN, 10));
+    }
+
+    public void dispatch(EnhancedQuote quote)
+    {
+        destination.send(quote, this);
     }
 }

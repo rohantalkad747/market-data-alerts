@@ -8,7 +8,7 @@ import java.util.List;
 @Service
 public class IoILoadChore
 {
-    private static final String AFTER_CLOSE ="0 0 4 * * ?";
+    private static final String AFTER_CLOSE = "0 0 4 * * ?";
     private static final String ON_OPEN = "0 0/30 4 * * ?";
     private final IoIStore ioIStore;
     private final MarketDataProxy marketDataProxy;
@@ -22,14 +22,14 @@ public class IoILoadChore
     @Scheduled(cron = AFTER_CLOSE)
     public void setAfterClose()
     {
-        List<IoI> matchingIoIs = ioIStore.getMatchingIoIs(Threshold.Target.CLOSE);
+        List<IoI> matchingIoIs = ioIStore.getIoIsByTarget(Threshold.Target.CLOSE);
         injectPx(matchingIoIs);
     }
 
     @Scheduled(cron = ON_OPEN)
     public void setOnOpen()
     {
-        List<IoI> matchingIoIs = ioIStore.getMatchingIoIs(Threshold.Target.OPEN);
+        List<IoI> matchingIoIs = ioIStore.getIoIsByTarget(Threshold.Target.OPEN);
         injectPx(matchingIoIs);
     }
 
@@ -39,7 +39,7 @@ public class IoILoadChore
         {
             Threshold th = ioi.getThreshold();
             double px = marketDataProxy.getMidPrice(ioi.getSymbol());
-            Threshold.Direction dir  = th.getDirection();
+            Threshold.Direction dir = th.getDirection();
             double target = dir.getTarget(px, th.getPctValue());
             ioi.getThreshold().setAbsValue(target);
         }

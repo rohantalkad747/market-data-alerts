@@ -30,7 +30,7 @@ public class ByteBufferQuoteSerdes implements IQuoteSerializer
         return new Quote(new String(symbolArr), price);
     }
 
-    private void populateCharArray(ByteBuffer byteBuffer, int length, char[] symbolArr)
+    private void populateCharArray(final ByteBuffer byteBuffer, final int length, final char[] symbolArr)
     {
         for (int i = 0; i < length; i++)
         {

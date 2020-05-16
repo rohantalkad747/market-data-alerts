@@ -25,6 +25,15 @@ public class IoI
     @Setter(AccessLevel.NONE)
     private boolean active;
 
+    public IoI(final long id, final IDestination destination, final String symbol, final Threshold threshold)
+    {
+        this.id = id;
+        this.destination = destination;
+        this.symbol = symbol;
+        this.threshold = threshold;
+        this.active = true;
+    }
+
     public boolean isActive()
     {
         return this.active;
@@ -38,14 +47,5 @@ public class IoI
     public void setInactivate()
     {
         this.active = false;
-    }
-
-    public IoI(final long id, final IDestination destination, final String symbol, final Threshold threshold)
-    {
-        this.id = id;
-        this.destination = destination;
-        this.symbol = symbol;
-        this.threshold = threshold;
-        this.active = true;
     }
 }

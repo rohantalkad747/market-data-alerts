@@ -17,7 +17,7 @@ public class AlertsFilterMediator implements SinkFunction<Quote>
     private final IoIStore ioIStore;
 
     @Override
-    public void invoke(Quote q, Context context)
+    public void invoke(final Quote q, final Context context)
     {
         final List<IoI> ioIsBySymbol = ioIStore.getIoIsBySymbol(q.getSymbol());
         for (final IoI ioi : ioIsBySymbol)

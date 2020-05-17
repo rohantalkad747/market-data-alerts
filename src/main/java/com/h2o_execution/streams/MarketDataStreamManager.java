@@ -1,23 +1,26 @@
 package com.h2o_execution.streams;
 
 import com.h2o_execution.domain.Quote;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.shaded.guava18.com.google.common.collect.Sets;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.sink.SinkFunction;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.stream.Collectors;
 
 import static com.h2o_execution.streams.StreamingConstants.FLINK_PORT;
 import static com.h2o_execution.streams.StreamingConstants.LOCAL_HOST;
 
+@Slf4j
+@Service
 public class MarketDataStreamManager implements IoIAware, IMarketDataStreamManager
 {
     private static final String HOURLY = "30,0 9-16 * * MON-FRI";
@@ -25,14 +28,15 @@ public class MarketDataStreamManager implements IoIAware, IMarketDataStreamManag
     private final DataStream<Quote> quoteDataStream;
     private final QuestradeSymbolService questradeSymbolService;
     private Set<Symbol> activeSymbols;
-    private Set<Symbol> toDeactivateSymbols;
+    private Set<Symbol> deactivateSymbols;
     private Map<Symbol, String> symbolToId;
+    private MarketDataAccess marketDataAccess;
 
     public MarketDataStreamManager(final QuestradeSymbolService questradeSymbolService)
     {
         this.questradeSymbolService = questradeSymbolService;
-        this.symbolSubscriberTable = new ConcurrentHashMap<Symbol, Integer>();
-        this.toDeactivateSymbols = new ConcurrentSkipListSet<>();
+        this.symbolSubscriberTable = new ConcurrentHashMap<>();
+        this.deactivateSymbols = new CopyOnWriteArraySet();
         this.symbolToId = new HashMap<>();
         quoteDataStream = StreamExecutionEnvironment.getExecutionEnvironment()
                 .socketTextStream(LOCAL_HOST, FLINK_PORT)
@@ -49,25 +53,46 @@ public class MarketDataStreamManager implements IoIAware, IMarketDataStreamManag
     @Scheduled(cron = HOURLY)
     public void hourlyChore()
     {
-        if (!toDeactivateSymbols.isEmpty())
+        if (!deactivateSymbols.isEmpty())
         {
-            activeSymbols = Sets.difference(activeSymbols, toDeactivateSymbols);
-            toDeactivateSymbols.clear();
-            for (Symbol sym : activeSymbols)
-            {
-                symbolToId.computeIfAbsent(sym, k ->
-                {
-                    try
-                    {
-                        return questradeSymbolService.getId(sym);
-                    }
-                    catch (IOException e)
-                    {
-                        return null;
-                    }
-                });
-            }
+            updateSymbolSets();
+            populateSymTable();
+            changeSubscriptionList();
         }
+    }
+
+    private void updateSymbolSets()
+    {
+        activeSymbols = Sets.difference(activeSymbols, deactivateSymbols);
+        deactivateSymbols.clear();
+    }
+
+    private void populateSymTable()
+    {
+        for (final Symbol sym : activeSymbols)
+        {
+            symbolToId.computeIfAbsent(sym, k ->
+            {
+                try
+                {
+                    return questradeSymbolService.getId(sym);
+                }
+                catch (IOException e)
+                {
+                    return null;
+                }
+            });
+        }
+    }
+
+    private void changeSubscriptionList()
+    {
+        List<String> subscriptionList = activeSymbols
+                .stream()
+                .map(s -> symbolToId.get(s))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        marketDataAccess.updateSubscriptionList(subscriptionList);
     }
 
     @Override
@@ -86,7 +111,7 @@ public class MarketDataStreamManager implements IoIAware, IMarketDataStreamManag
         final int newCount = symbolSubscriberTable.compute(symbol, (k, v) -> v == 0 ? 0 : v - 1);
         if (newCount == 0)
         {
-            toDeactivateSymbols.add(symbol);
+            deactivateSymbols.add(symbol);
         }
     }
 

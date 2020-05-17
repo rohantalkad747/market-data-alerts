@@ -15,7 +15,7 @@ public class ByteBufferQuoteSerdes implements IQuoteSerializer
         byteBuffer.putInt(symbolArr.length);
         byteBuffer.asCharBuffer().put(symbolArr);
         byteBuffer.position(byteBuffer.position() + (symbolArr.length * 2));
-        byteBuffer.putDouble(quote.getPrice());
+        byteBuffer.putDouble(quote.getLastTradePrice());
         return buffer;
     }
 

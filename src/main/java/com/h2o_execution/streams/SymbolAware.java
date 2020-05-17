@@ -5,7 +5,7 @@ import org.apache.flink.streaming.api.functions.sink.SinkFunction;
 
 import java.util.Set;
 
-public interface IMarketDataStreamManager
+public interface SymbolAware
 {
     void setActiveSymbols(Set<Symbol> symbols);
 

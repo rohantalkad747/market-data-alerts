@@ -13,7 +13,7 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Value;
 
 @Slf4j
-public class QuestradeAuthorizationManager implements OAuth2Flow
+public class QuestradeAuthorizationManager implements OAuth2Flow, AccessKeyRegistry
 {
     @Value("${clientId}")
     private String clientId;

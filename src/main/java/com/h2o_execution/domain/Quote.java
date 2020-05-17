@@ -12,5 +12,5 @@ import java.io.Serializable;
 public class Quote implements Serializable
 {
     private String symbol;
-    private double price;
+    private double lastTradePrice;
 }

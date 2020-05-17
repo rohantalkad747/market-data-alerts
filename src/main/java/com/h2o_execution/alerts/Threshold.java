@@ -42,7 +42,7 @@ public class Threshold
                 {
                     public boolean isSatisfied(final double px, final Quote quote)
                     {
-                        return quote.getPrice() > px;
+                        return quote.getLastTradePrice() > px;
                     }
 
                     @Override
@@ -55,7 +55,7 @@ public class Threshold
                 {
                     public boolean isSatisfied(final double px, final Quote quote)
                     {
-                        return quote.getPrice() < px;
+                        return quote.getLastTradePrice() < px;
                     }
 
                     @Override

@@ -11,7 +11,7 @@ public class UnsafeQuoteSerdes implements IQuoteSerializer
         final byte[] buffer = new byte[1024];
         final UnsafeMemory byteBuffer = new UnsafeMemory(buffer);
         byteBuffer.putCharArray(quote.getSymbol().toCharArray());
-        byteBuffer.putDouble(quote.getPrice());
+        byteBuffer.putDouble(quote.getLastTradePrice());
         return buffer;
     }
 

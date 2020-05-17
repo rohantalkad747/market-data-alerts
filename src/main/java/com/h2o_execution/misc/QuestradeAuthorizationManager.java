@@ -1,5 +1,6 @@
 package com.h2o_execution.misc;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -11,17 +12,28 @@ import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
-public class QuestradeAuthorizationManager implements OAuth2Flow, AccessKeyRegistry
+@Service
+public class QuestradeAuthorizationManager implements OAuth2Flow
 {
-    @Value("${clientId}")
-    private String clientId;
     @Value("${refreshToken}")
     private String refreshToken;
     @Getter
     @Value("${accessToken}")
     private String accessToken;
+    private ScheduledExecutorService scheduledExecutorService;
+
+    public QuestradeAuthorizationManager()
+    {
+        this.scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+    }
 
     @Override
     public String getRefreshLink()
@@ -32,6 +44,16 @@ public class QuestradeAuthorizationManager implements OAuth2Flow, AccessKeyRegis
     @Override
     public void refreshAccessToken() throws Exception
     {
+        final JsonNode node = getNode();
+        final String accessToken = node.get("access_token").asText();
+        final int expiresIn = node.get("expires_in").asInt();
+        this.updateAccess(accessToken);
+        scheduledExecutorService.schedule(() -> refreshToken, expiresIn, TimeUnit.SECONDS);
+
+    }
+
+    private JsonNode getNode() throws IOException
+    {
         final HttpUriRequest request = RequestBuilder
                 .get(getRefreshLink())
                 .addHeader("Accept", "application/json")
@@ -39,8 +61,7 @@ public class QuestradeAuthorizationManager implements OAuth2Flow, AccessKeyRegis
                 .build();
         final HttpResponse response = HttpClientBuilder.create().build().execute(request);
         final String jsonString = EntityUtils.toString(response.getEntity());
-        final String accessToken = new ObjectMapper().readTree(jsonString).get("access_token").asText();
-        this.updateAccess(accessToken);
+        return new ObjectMapper().readTree(jsonString);
     }
 
     @Override

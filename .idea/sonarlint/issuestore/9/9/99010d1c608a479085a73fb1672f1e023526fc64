@@ -1,6 +1,0 @@
-
-G
-java:S1481["*Remove this unused "entry" local variable.(ÍÇ¿œ8Ôÿù¡.
-J	java:S108\")Either remove or fill this block of code.(ÒÌâ–øÿÿÿÿ8Ôÿù¡.
-F
-java:S2140"")Use "java.util.Random.nextInt()" instead.(©òöË8„ºÿù¡.

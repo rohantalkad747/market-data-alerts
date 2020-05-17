@@ -7,6 +7,9 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.sink.SinkFunction;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -17,34 +20,54 @@ import static com.h2o_execution.streams.StreamingConstants.LOCAL_HOST;
 
 public class MarketDataStreamManager implements IoIAware, IMarketDataStreamManager
 {
-    private static final String EVERY_ONE_HOUR_MARKET_HOURS = "30,0 9-16 * * MON-FRI";
-    private final ConcurrentMap<String, Integer> symbolSubscriberTable;
+    private static final String HOURLY = "30,0 9-16 * * MON-FRI";
+    private final ConcurrentMap<Symbol, Integer> symbolSubscriberTable;
     private final DataStream<Quote> quoteDataStream;
-    private Set<String> activeSymbols;
-    private ConcurrentSkipListSet<String> toDeactivateSymbols;
+    private final QuestradeSymbolService questradeSymbolService;
+    private Set<Symbol> activeSymbols;
+    private Set<Symbol> toDeactivateSymbols;
+    private Map<Symbol, String> symbolToId;
 
-    public MarketDataStreamManager()
+    public MarketDataStreamManager(final QuestradeSymbolService questradeSymbolService)
     {
-        symbolSubscriberTable = new ConcurrentHashMap<>();
-        final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        quoteDataStream = env
+        this.questradeSymbolService = questradeSymbolService;
+        this.symbolSubscriberTable = new ConcurrentHashMap<Symbol, Integer>();
+        this.toDeactivateSymbols = new ConcurrentSkipListSet<>();
+        this.symbolToId = new HashMap<>();
+        quoteDataStream = StreamExecutionEnvironment.getExecutionEnvironment()
                 .socketTextStream(LOCAL_HOST, FLINK_PORT)
                 .map(value ->
                 {
                     final String[] tokens = value.split(",");
                     return new Quote(tokens[0], Double.parseDouble(tokens[1]));
                 });
-
     }
 
     /**
      * Changes the list of subscriptions.
      */
-    @Scheduled(cron = EVERY_ONE_HOUR_MARKET_HOURS)
+    @Scheduled(cron = HOURLY)
     public void hourlyChore()
     {
-        activeSymbols = Sets.difference(activeSymbols, toDeactivateSymbols);
-        toDeactivateSymbols.clear();
+        if (!toDeactivateSymbols.isEmpty())
+        {
+            activeSymbols = Sets.difference(activeSymbols, toDeactivateSymbols);
+            toDeactivateSymbols.clear();
+            for (Symbol sym : activeSymbols)
+            {
+                symbolToId.computeIfAbsent(sym, k ->
+                {
+                    try
+                    {
+                        return questradeSymbolService.getId(sym);
+                    }
+                    catch (IOException e)
+                    {
+                        return null;
+                    }
+                });
+            }
+        }
     }
 
     @Override
@@ -54,7 +77,7 @@ public class MarketDataStreamManager implements IoIAware, IMarketDataStreamManag
     }
 
     @Override
-    public void onDeactivation(final String symbol)
+    public void onDeactivation(final Symbol symbol)
     {
         if (!symbolSubscriberTable.containsKey(symbol))
         {
@@ -68,7 +91,7 @@ public class MarketDataStreamManager implements IoIAware, IMarketDataStreamManag
     }
 
     @Override
-    public void onActivation(final String symbol)
+    public void onActivation(final Symbol symbol)
     {
         final int cnt = symbolSubscriberTable.merge(symbol, 1, Integer::sum);
         if (cnt == 1)
@@ -78,7 +101,7 @@ public class MarketDataStreamManager implements IoIAware, IMarketDataStreamManag
     }
 
     @Override
-    public void setActiveSymbols(final Set<String> symbols)
+    public void setActiveSymbols(final Set<Symbol> symbols)
     {
         activeSymbols = symbols;
     }

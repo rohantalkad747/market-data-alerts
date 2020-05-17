@@ -7,7 +7,7 @@ import java.util.Set;
 
 public interface IMarketDataStreamManager
 {
-    void setActiveSymbols(Set<String> symbols);
+    void setActiveSymbols(Set<Symbol> symbols);
 
     void setListener(SinkFunction<Quote> dataSubscriber);
 }

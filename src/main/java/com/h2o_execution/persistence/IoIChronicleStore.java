@@ -3,6 +3,7 @@ package com.h2o_execution.persistence;
 import com.h2o_execution.alerts.SMSDestination;
 import com.h2o_execution.alerts.Threshold;
 import com.h2o_execution.domain.IoI;
+import com.h2o_execution.streams.Exchange;
 import net.openhft.chronicle.map.ChronicleMap;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,8 @@ public class IoIChronicleStore extends AbstractIoIStore
         return new IoI((int) Math.random(),
                 new SMSDestination(4166938981L),
                 "AAPL",
-                new Threshold(Threshold.Direction.POSITIVE, Threshold.Type.PERCENT, Threshold.Target.OPEN, 10));
+                new Threshold(Threshold.Direction.POSITIVE, Threshold.Type.PERCENT, Threshold.Target.OPEN, 10),
+                Exchange.NYSE);
     }
 
     @Override

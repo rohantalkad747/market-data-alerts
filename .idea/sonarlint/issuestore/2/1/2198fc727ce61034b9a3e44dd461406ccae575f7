@@ -1,12 +1,11 @@
 
-b
-java:S1854"ERemove this useless assignment to local variable "socketStockStream".(ÙÏ‘8ËÆÔú .
-‰
-java:S1130
-"lRemove the declaration of thrown exception 'java.lang.Exception', as it cannot be thrown from method's body.(Šó³8ËÆÔú .
 r
-java:S1450"URemove the "tokens" field and declare it as a local variable in the relevant methods.(é±ÜÕ8«´âå .
+java:S1450"URemove the "tokens" field and declare it as a local variable in the relevant methods.(é±ÜÕ8«´âå .
+]	java:S125"<This block of commented-out lines of code should be removed.(õ¦¨£úÿÿÿÿ8ËÆÔú .
 S
-java:S1481"6Remove this unused "socketStockStream" local variable.(ÙÏ‘8ËÆÔú .
-X	java:S125!"<This block of commented-out lines of code should be removed.(†ôƒÓ8ËÆÔú .
-]	java:S125"<This block of commented-out lines of code should be removed.(õ¦¨£úÿÿÿÿ8ËÆÔú .
+java:S1481"6Remove this unused "socketStockStream" local variable.(ÙÏ‘8ËÆÔú .
+X	java:S125""<This block of commented-out lines of code should be removed.(†ôƒÓ8ËÆÔú .
+‰
+java:S1130"lRemove the declaration of thrown exception 'java.lang.Exception', as it cannot be thrown from method's body.(Šó³8ËÆÔú .
+b
+java:S1854"ERemove this useless assignment to local variable "socketStockStream".(ÙÏ‘8ËÆÔú .

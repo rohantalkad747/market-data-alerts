@@ -2,7 +2,7 @@ package com.h2o_execution.streams;
 
 public interface IoIAware
 {
-    void onDeactivation(String symbol);
+    void onDeactivation(Symbol symbol);
 
-    void onActivation(String symbol);
+    void onActivation(Symbol symbol);
 }

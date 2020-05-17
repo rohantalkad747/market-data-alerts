@@ -2,6 +2,7 @@ package com.h2o_execution.domain;
 
 import com.h2o_execution.alerts.IDestination;
 import com.h2o_execution.alerts.Threshold;
+import com.h2o_execution.streams.Exchange;
 import lombok.*;
 
 import java.io.Serializable;
@@ -25,16 +26,18 @@ public class IoI implements Serializable
     private IDestination destination;
     private String symbol;
     private Threshold threshold;
+    private Exchange exchange;
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     private boolean active;
 
-    public IoI(final long id, final IDestination destination, final String symbol, final Threshold threshold)
+    public IoI(final long id, final IDestination destination, final String symbol, final Threshold threshold, final Exchange exchange)
     {
         this.id = id;
         this.destination = destination;
         this.symbol = symbol;
         this.threshold = threshold;
+        this.exchange = exchange;
         this.active = true;
     }
 

@@ -1,5 +1,0 @@
-
-R
-java:S1191"5Use classes from the Java API instead of Sun classes.(éª‚€8¼¼Ëß¡.
-v	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(“¾’Ø8µ£ëþ .
-u	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(¾‚„58µ£ëþ .

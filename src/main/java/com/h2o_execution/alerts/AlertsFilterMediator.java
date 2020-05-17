@@ -1,7 +1,9 @@
 package com.h2o_execution.alerts;
 
 import com.h2o_execution.domain.EnhancedQuote;
+import com.h2o_execution.domain.IoI;
 import com.h2o_execution.domain.Quote;
+import com.h2o_execution.persistence.IoIStore;
 import com.h2o_execution.streams.MarketDataProxy;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,5 +1,7 @@
 package com.h2o_execution.alerts;
 
+import com.h2o_execution.domain.IoI;
+import com.h2o_execution.persistence.IoIStore;
 import com.h2o_execution.streams.MarketDataProxy;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;

@@ -123,3 +123,7 @@ s
 Csrc/main/java/com/h2o_execution/streams/MarketDataSourceStream.java,4\9\491ae67bbe46beab8652ae16045b482665745518
 w
 Gsrc/main/java/com/h2o_execution/misc/QuestradeAuthorizationManager.java,5\8\58b6823f2fb3dc871d4903e3f2ff172c19901284
+z
+Jsrc/main/java/com/h2o_execution/streams/MarketDataSourceStreamAdapter.java,d\f\df1ece2fb7a46fbc22c3167c2bf58a5beaf2eecf
+~
+Nsrc/main/java/com/h2o_execution/streams/MarketDataSourceStreamAdapterImpl.java,9\c\9c7830334cad3542498cc340e32e8ba92f93ed0c

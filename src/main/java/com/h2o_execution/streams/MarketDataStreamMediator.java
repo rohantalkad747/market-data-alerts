@@ -9,87 +9,43 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.sink.SinkFunction;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class MarketDataStreamMediator implements IoIAware, SymbolAware
 {
     private static final String HOURLY = "30,0 9-16 * * MON-FRI";
-    private final ConcurrentMap<Symbol, Integer> symbolSubscriberTable;
+    private final Map<Symbol, Integer> symbolSubscriberTable;
     private final DataStream<Quote> quoteDataStream;
-    private final QuestradeSymbolService questradeSymbolService;
-    private final MarketDataSourceStream marketDataSourceStream;
-    private Set<Symbol> activeSymbols;
+    private final MarketDataSourceStreamAdapter marketDataSourceStream;
     private final Set<Symbol> deactivateSymbols;
-    private final Map<Symbol, String> symbolToId;
     private final ObjectMapper objectMapper;
+    private Set<Symbol> activeSymbols;
 
-    public MarketDataStreamMediator(QTAccessKeyRegistry qtAccessKeyRegistry)
+    public MarketDataStreamMediator(final QTAccessKeyRegistry qtAccessKeyRegistry)
     {
-        this.questradeSymbolService = new QuestradeSymbolServiceImpl(qtAccessKeyRegistry);
-        this.marketDataSourceStream = new MarketDataSourceStream(qtAccessKeyRegistry);
+        this.marketDataSourceStream = new MarketDataSourceStreamAdapterImpl(qtAccessKeyRegistry);
         this.symbolSubscriberTable = new ConcurrentHashMap<>();
         this.deactivateSymbols = new CopyOnWriteArraySet<>();
-        this.symbolToId = new HashMap<>();
         this.objectMapper = new ObjectMapper();
         quoteDataStream = StreamExecutionEnvironment.getExecutionEnvironment()
-                .addSource(marketDataSourceStream)
+                .addSource(marketDataSourceStream.getDelegate())
                 .map(value -> objectMapper.readValue(value, Quote.class));
     }
 
-    /**
-     * Changes the list of subscriptions.
-     */
     @Scheduled(cron = HOURLY)
-    public void hourlyChore()
+    public void updateStreamSubscriptionListEveryHour()
     {
         if (!deactivateSymbols.isEmpty())
         {
-            updateSymbolSets();
-            populateSymTable();
-            changeSubscriptionList();
+            activeSymbols = Sets.difference(activeSymbols, deactivateSymbols);
+            deactivateSymbols.clear();
+            marketDataSourceStream.initiateSubscriptionConnection(activeSymbols);
         }
-    }
-
-    private void updateSymbolSets()
-    {
-        activeSymbols = Sets.difference(activeSymbols, deactivateSymbols);
-        deactivateSymbols.clear();
-    }
-
-    private void populateSymTable()
-    {
-        for (final Symbol sym : activeSymbols)
-        {
-            symbolToId.computeIfAbsent(sym, k ->
-            {
-                try
-                {
-                    return questradeSymbolService.getId(sym);
-                }
-                catch (final IOException e)
-                {
-                    return null;
-                }
-            });
-        }
-    }
-
-    private void changeSubscriptionList()
-    {
-        final List<String> subscriptionList = activeSymbols
-                .stream()
-                .map(s -> symbolToId.get(s))
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-        marketDataSourceStream.updateSubscriptionList(subscriptionList);
     }
 
     @Override
@@ -101,11 +57,7 @@ public class MarketDataStreamMediator implements IoIAware, SymbolAware
     @Override
     public void onDeactivation(final Symbol symbol)
     {
-        if (symbolSubscriberTable.get(symbol) == null)
-        {
-            throw new RuntimeException("Symbol not part of subscriber table!");
-        }
-        final int newCount = symbolSubscriberTable.compute(symbol, (k, v) -> v == 0 ? 0 : v - 1);
+        final int newCount = symbolSubscriberTable.compute(symbol, (k, v) -> v == null ? 0 : (v == 0 ? 0 : v - 1));
         if (newCount == 0)
         {
             deactivateSymbols.add(symbol);
@@ -126,6 +78,6 @@ public class MarketDataStreamMediator implements IoIAware, SymbolAware
     public void setActiveSymbols(final Set<Symbol> symbols)
     {
         activeSymbols = symbols;
-        this.changeSubscriptionList();
+        this.marketDataSourceStream.initiateSubscriptionConnection(activeSymbols);
     }
 }

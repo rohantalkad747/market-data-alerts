@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface QTStreamSink
 {
-    void updateSubscriptionList(List<String> symbolIds);
+    void initiateSubscriptionConnection(List<String> symbolIds);
 }

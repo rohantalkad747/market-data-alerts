@@ -10,8 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -52,13 +53,13 @@ public class IoIChronicleStore extends AbstractIoIStore
     }
 
     @Override
-    protected List<IoI> get(String symbol)
+    protected List<IoI> get(final String symbol)
     {
         return chronicleMap.get(symbol);
     }
 
     @Override
-    protected void put(String symbol, List<IoI> ioIS)
+    protected void put(final String symbol, final List<IoI> ioIS)
     {
         chronicleMap.put(symbol, ioIS);
     }

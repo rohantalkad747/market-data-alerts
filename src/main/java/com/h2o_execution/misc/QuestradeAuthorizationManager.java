@@ -28,7 +28,7 @@ public class QuestradeAuthorizationManager implements OAuth2Flow
     @Getter
     @Value("${accessToken}")
     private String accessToken;
-    private ScheduledExecutorService scheduledExecutorService;
+    private final ScheduledExecutorService scheduledExecutorService;
 
     public QuestradeAuthorizationManager()
     {
@@ -65,7 +65,7 @@ public class QuestradeAuthorizationManager implements OAuth2Flow
     }
 
     @Override
-    public void updateAccess(String accessToken) throws ConfigurationException
+    public void updateAccess(final String accessToken) throws ConfigurationException
     {
         final ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         final PropertiesConfiguration propertiesConfiguration = new PropertiesConfiguration(classLoader.getResource("application.properties").getFile());

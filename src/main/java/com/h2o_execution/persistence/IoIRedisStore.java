@@ -3,11 +3,12 @@ package com.h2o_execution.persistence;
 import com.h2o_execution.domain.IoI;
 import lombok.AllArgsConstructor;
 import org.apache.flink.shaded.curator.org.apache.curator.shaded.com.google.common.collect.ImmutableList;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,13 +30,13 @@ public class IoIRedisStore extends AbstractIoIStore
     }
 
     @Override
-    protected List<IoI> get(String symbol)
+    protected List<IoI> get(final String symbol)
     {
         return ioiRedisRepository.findById(symbol).orElseThrow(RuntimeException::new).getIoIs();
     }
 
     @Override
-    protected void put(String symbol, List<IoI> ioIS)
+    protected void put(final String symbol, final List<IoI> ioIS)
     {
         ioiRedisRepository.save(new IoIRedisList(symbol, ioIS));
     }

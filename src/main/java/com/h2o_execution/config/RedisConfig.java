@@ -2,7 +2,6 @@ package com.h2o_execution.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
@@ -10,15 +9,17 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class RedisConfig
 {
 
-        public LettuceConnectionFactory redisConnectionFactory() {
-            return new LettuceConnectionFactory();
-        }
+    public LettuceConnectionFactory redisConnectionFactory()
+    {
+        return new LettuceConnectionFactory();
+    }
 
-        @Bean
-        public RedisTemplate<?, ?> redisTemplate() {
-            RedisTemplate<byte[], byte[]> template = new RedisTemplate<>();
-            template.setConnectionFactory(redisConnectionFactory());
-            return template;
-        }
+    @Bean
+    public RedisTemplate<?, ?> redisTemplate()
+    {
+        final RedisTemplate<byte[], byte[]> template = new RedisTemplate<>();
+        template.setConnectionFactory(redisConnectionFactory());
+        return template;
+    }
 
 }

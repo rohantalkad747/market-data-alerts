@@ -29,7 +29,7 @@ public class IoI implements Serializable
     private Exchange exchange;
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
-    private boolean active;
+    private boolean activeStatus;
 
     public IoI(final long id, final IDestination destination, final String symbol, final Threshold threshold, final Exchange exchange)
     {
@@ -38,21 +38,16 @@ public class IoI implements Serializable
         this.symbol = symbol;
         this.threshold = threshold;
         this.exchange = exchange;
-        this.active = true;
+        this.activeStatus = true;
     }
 
-    public boolean isActive()
+    public void activate()
     {
-        return this.active;
+        this.activeStatus = true;
     }
 
-    public void setActive()
+    public void deactivate()
     {
-        this.active = true;
-    }
-
-    public void setInactivate()
-    {
-        this.active = false;
+        this.activeStatus = false;
     }
 }

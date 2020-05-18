@@ -18,11 +18,16 @@ import java.util.List;
 @Slf4j
 public class MarketDataSourceStream extends AbstractQTAccessAware implements SourceFunction<String>, QTStreamSink
 {
-    private String accessToken;
     private static final String MD_URL = "https://api01.iq.questrade.com/v1/markets/quotes?ids=%s\"stream=true\"mode=RawSocket";
+    private String accessToken;
     private SocketConnection CONNECTION;
     private volatile boolean running;
     private List<String> symbolIds;
+
+    public MarketDataSourceStream(final QTAccessKeyRegistry accessKeyRegistry)
+    {
+        super(accessKeyRegistry);
+    }
 
     private String getConnString()
     {
@@ -30,29 +35,29 @@ public class MarketDataSourceStream extends AbstractQTAccessAware implements Sou
     }
 
     @Override
-    public void updateAccessKey(String accessKey)
+    public void updateAccessKey(final String accessKey)
     {
         this.cancel();
         this.accessToken = accessKey;
     }
 
+    /**
+     * Initiates a market data connection with a request for quotes of the given symbols.
+     *
+     * @param symbolIds
+     */
     @Override
-    public void updateSubscriptionList(final List<String> symbolIds)
+    public void initiateSubscriptionConnection(final List<String> symbolIds)
     {
         this.symbolIds = symbolIds;
         this.cancel();
         this.initiateConnection();
     }
 
-    public MarketDataSourceStream(QTAccessKeyRegistry accessKeyRegistry)
-    {
-        super(accessKeyRegistry);
-    }
-
     private void initiateConnection()
     {
         this.running = true;
-        String connStr = getConnString();
+        final String connStr = getConnString();
         final HttpUriRequest request = RequestBuilder
                 .get(connStr)
                 .addHeader("Authorization", "Bearer " + accessToken)
@@ -62,10 +67,10 @@ public class MarketDataSourceStream extends AbstractQTAccessAware implements Sou
         {
             final HttpResponse response = HttpClientBuilder.create().build().execute(request);
             final String jsonString = EntityUtils.toString(response.getEntity());
-            int streamPort = new ObjectMapper().readTree(jsonString).get("streamPort").asInt();
-            CONNECTION = new SocketConnection(connStr,streamPort);
+            final int streamPort = new ObjectMapper().readTree(jsonString).get("streamPort").asInt();
+            CONNECTION = new SocketConnection(connStr, streamPort);
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             log.warn("Error while trying to connect to stream", e);
         }
@@ -85,9 +90,9 @@ public class MarketDataSourceStream extends AbstractQTAccessAware implements Sou
         }
     }
 
-    private void handshake(SocketConnection conn) throws IOException
+    private void handshake(final SocketConnection conn) throws IOException
     {
-        PrintStream writer = conn.getWriter();
+        final PrintStream writer = conn.getWriter();
         writer.write(accessToken.getBytes());
         writer.write(' ');
     }

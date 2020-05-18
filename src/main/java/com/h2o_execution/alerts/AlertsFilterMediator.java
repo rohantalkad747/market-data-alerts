@@ -37,7 +37,7 @@ public class AlertsFilterMediator implements SinkFunction<Quote>
                 }
                 else
                 {
-                    ioi.setInactivate();
+                    ioi.deactivate();
                 }
             }
         }

@@ -28,7 +28,7 @@ public abstract class AbstractDestination implements IDestination
         {
             reason.append(" by ").append(th.getPctValue()).append(" %");
         }
-        reason.append("\n\n").append(quote.toString());
+        reason.append(th.getDirection().getDate()).append("\n\n").append(quote.toString());
         return reason.toString();
     }
 }

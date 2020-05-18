@@ -22,7 +22,7 @@ public class QuestradeSymbolServiceImpl extends AbstractQTAccessAware implements
     private static final String SYM_SEARCH = "https://api01.iq.questrade.com/v1/symbols/";
     private String accessKey;
 
-    protected QuestradeSymbolServiceImpl(QTAccessKeyRegistry registry)
+    protected QuestradeSymbolServiceImpl(final QTAccessKeyRegistry registry)
     {
         super(registry);
     }
@@ -48,7 +48,7 @@ public class QuestradeSymbolServiceImpl extends AbstractQTAccessAware implements
     }
 
     @Override
-    public void updateAccessKey(String accessKey)
+    public void updateAccessKey(final String accessKey)
     {
         this.accessKey = accessKey;
     }

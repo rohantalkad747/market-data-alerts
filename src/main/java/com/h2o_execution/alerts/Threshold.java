@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Builder
 @Data
 @NoArgsConstructor
@@ -40,7 +42,8 @@ public class Threshold
     {
         POSITIVE("up")
                 {
-                    public boolean isSatisfied(final double px, final Quote quote)
+                    @Override
+                    public boolean checkSat(final double px, final Quote quote)
                     {
                         return quote.getLastTradePrice() > px;
                     }
@@ -53,7 +56,8 @@ public class Threshold
                 },
         NEGATIVE("down")
                 {
-                    public boolean isSatisfied(final double px, final Quote quote)
+                    @Override
+                    public boolean checkSat(final double px, final Quote quote)
                     {
                         return quote.getLastTradePrice() < px;
                     }
@@ -66,6 +70,7 @@ public class Threshold
                 };
 
         private final String drxn;
+        private String date;
 
         Direction(final String drxn)
         {
@@ -77,7 +82,22 @@ public class Threshold
             return drxn;
         }
 
-        public abstract boolean isSatisfied(double px, Quote quote);
+        public String getDate()
+        {
+            return this.date;
+        }
+
+        protected abstract boolean checkSat(double px, Quote quote);
+
+        public final boolean isSatisfied(final double px, final Quote quote)
+        {
+            final boolean sat = checkSat(px, quote);
+            if (sat)
+            {
+                this.date = new Date().toString();
+            }
+            return sat;
+        }
 
         public abstract double getTarget(double px, double pct);
     }

@@ -6,14 +6,14 @@ import com.h2o_execution.streams.MarketDataProxy;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
 public class IoILoadChore
 {
-    // Account for 15 minute delay ...
-    private static final String AFTER_CLOSE = "0 0/15 4 * * MON-FRI";
-    private static final String ON_OPEN = "0 0/45 9 * * MON-FRI";
+    private static final String AFTER_CLOSE = "0 0 4 * * MON-FRI";
+    private static final String ON_OPEN = "0 0/30 9 * * MON-FRI";
     private final IoIStore ioIStore;
     private final MarketDataProxy marketDataProxy;
 
@@ -24,20 +24,20 @@ public class IoILoadChore
     }
 
     @Scheduled(cron = AFTER_CLOSE)
-    public void setAfterClose()
+    public void setAfterClose() throws IOException
     {
         final List<IoI> matchingIoIs = ioIStore.getIoIsByTarget(Threshold.Target.CLOSE);
         injectPx(matchingIoIs);
     }
 
     @Scheduled(cron = ON_OPEN)
-    public void setOnOpen()
+    public void setOnOpen() throws IOException
     {
         final List<IoI> matchingIoIs = ioIStore.getIoIsByTarget(Threshold.Target.OPEN);
         injectPx(matchingIoIs);
     }
 
-    private void injectPx(final List<IoI> matchingIoIs)
+    private void injectPx(final List<IoI> matchingIoIs) throws IOException
     {
         for (final IoI ioi : matchingIoIs)
         {

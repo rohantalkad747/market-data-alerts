@@ -1,3 +1,6 @@
 
 ‰
 java:S1130"lRemove the declaration of thrown exception 'java.lang.Exception', as it cannot be thrown from method's body.(¸½Ë”8¿³»÷¡.
+b	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(¸½Ë”8Ÿ¥¬¤.
+E
+java:S1148 "#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8Ÿ¥¬¤.

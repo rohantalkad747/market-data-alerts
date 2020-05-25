@@ -35,7 +35,7 @@ public class AlertsFilterMediator implements SinkFunction<Quote>
                 {
                     this.ioIStore.removeEntry(ioi.getSymbol(), ioi.getId());
                 }
-                else
+                else 
                 {
                     ioi.deactivate();
                 }

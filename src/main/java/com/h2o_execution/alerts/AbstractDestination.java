@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public abstract class AbstractDestination implements IDestination
 {
-
     @Override
     public final void send(final EnhancedQuote quote, final Threshold th)
     {
